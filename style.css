@@ -1,0 +1,61 @@
+/*
+ Theme Name:   Twenty Seventeen Child
+ Description:  Twenty Seventeen Child Theme
+ Author:       Damion Armentrout
+ Template:     twentyseventeen
+ Version:      1.0.0
+ License:      GNU General Public License v2 or later
+ License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+ Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
+ Text Domain:  twenty-seventeen-child
+*/
+
+.clearfix:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+
+#main {
+	margin: auto 30px;
+}
+
+.chicken-link {
+	float: left;
+	margin-bottom: 20px;
+}
+
+#carousel-row .chicken-link a img {
+	max-height: 75px;
+	width: auto;
+}
+
+#carouselPages {
+	clear: both;
+	margin-top: 20px;
+}
+
+#carouselPages span {
+	padding: 1em 0px;
+}
+
+.entry.row>div {
+	float: left;
+	margin-right: 50px;
+	max-width: 80%;
+}
+
+.featured-chicken-image img {
+	max-width: 150px;
+}
+
+.previous-chicken {
+	clear: both;
+}
+
+.post {
+	margin-bottom: 50px;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 25px;
+	}
