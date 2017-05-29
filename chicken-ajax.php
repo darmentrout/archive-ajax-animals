@@ -10,16 +10,17 @@ require_once('../../../wp-load.php');
 if( isset($_GET['carousel']) ){
     
     // AJAX for moving through carousel
+        $paged = $_GET['paged'] ? $_GET['paged'] : 1;
         $cat = get_query_var( 'cat' );
         $args = array(
             'post_type' => 'chickens',
             'order' => 'DSC',
             'posts_per_page' => 2,
             'cat' => $cat,
-            'paged' => $_GET['paged']
+            'paged' => $paged
         );
-        $query = new WP_Query($args);                
-        if($query->have_posts()) : ?><?php while($query->have_posts()) : $query->the_post(); 
+        $caro = new WP_Query($args);                
+        if($caro->have_posts()) : ?><?php while($caro->have_posts()) : $caro->the_post(); 
     ?>
         <div class="chicken-link" title="<?php the_title(); ?>">
             <a href="#" data-post-id="<?php the_ID(); ?>"><?php the_post_thumbnail('small'); ?></a>
@@ -54,7 +55,7 @@ else {
         if($query->have_posts()) : ?><?php while($query->have_posts()) : $query->the_post(); 
     ?>
 
-        <h3><?php the_title(); ?></h3>
+        <h1><?php the_title(); ?></h3>
         <div class="entry row clearfix">
             <div class="featured-chicken-image">
                 <?php the_post_thumbnail(); ?>

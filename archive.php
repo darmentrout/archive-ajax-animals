@@ -14,7 +14,7 @@
 
                     case "cows": ?>
                         <div class="cows">
-                            <h3>Cows!</h3>
+                            <h1>Cows!</h3>
 
                             
                             <div id="cows">
@@ -53,7 +53,7 @@
 
                     <?php case "pigs": ?>
                         <div class="pigs">
-                            <h3>Pigs!</h3>
+                            <h1>Pigs!</h3>
 
                             <div id="pigs">
                                 <?php
@@ -93,7 +93,7 @@
 
 
                 <?php case "chickens": ?>
-                <div id="chicken-spotlight">
+                <div id="chicken-spotlight" class="wrap">
                 <?php
                     $cat = get_query_var( 'cat' );
                     $args = array(
@@ -106,7 +106,7 @@
                     if($query->have_posts()) : ?><?php while($query->have_posts()) : $query->the_post(); 
                 ?>
                     <div class="post">
-                        <h3><?php the_title(); ?></h3>
+                        <h1><?php the_title(); ?></h3>
                         <div class="entry row clearfix">
                             <div class="featured-chicken-image">
                                 <?php the_post_thumbnail(); ?>
@@ -126,46 +126,29 @@
                             <p>Previously featured chickens:</p>
                             <div id="carousel-row">
                                 <?php
-                                    $cat = get_query_var( 'cat' );
-                                    $args = array(
-                                        'post_type' => 'chickens',
-                                        'order' => 'DSC',
-                                        'posts_per_page' => 6,
-                                        //'offset' => 1,
-                                        'cat' => $cat
-                                    );
-                                    $query = new WP_Query($args);                
-                                    if($query->have_posts()) : ?><?php while($query->have_posts()) : $query->the_post(); 
-                                ?>
-                                    <div class="chicken-link" title="<?php the_title(); ?>">
-                                        <a href="#" data-post-id="<?php the_ID(); ?>"><?php the_post_thumbnail('small'); ?></a>
-                                    </div>
-                                <?php
-                                    endwhile; endif;
-                                    //wp_reset_query();
+                                    $per_page_count = 2;
+                                    $count_chickens = wp_count_posts( 'chickens' )->publish;
+                                    $chicken_total = round($count_chickens/$per_page_count, 0, PHP_ROUND_HALF_UP);
                                 ?>
                             </div>
 
-                            <!-- <p class="carousel-ctrl" style="cursor:pointer;">
-                                <span class="carousel-back">&lsaquo; Back</span> | <span class="carousel-next">Next &rsaquo;</span>
-                            </p> -->
-
                             <p id="carouselPages" aria-live="polite" aria-label="Use these buttons to page through the previously featured chicken">
                                 <?php
+                                // global $wp_query;
                                 $big = 999999999; // need an unlikely integer
                                 $pagination = paginate_links( array(
                                     'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
                                     'format' => '?paged=%#%',
                                     'current' => max( 1, get_query_var('paged') ),
-                                    'total' => $query->max_num_pages,
+                                    'total' => $chicken_total, //$caro->max_num_pages, // adding 1 shouldn't be necessary
                                     'show_all' => 'True'
-                                    ) );
+                                    ) 
+                                );
                                 $pagination = preg_replace("/<a\s(.+?)>(.+?)<\/a>/is", "<span role='button' tabindex='0'>$2</span>", $pagination);
-                                echo "<span role='button' tabindex='0'>« Back</span> " . $pagination;
+                                echo "<span role='button' tabindex='0'>« Back</span> " . $pagination; 
                                 ?>
                             </p>
-
-                            <?php wp_reset_query(); ?>
+                            <?php wp_reset_query(); ?>           
                         </div>
                     </div>
                 </div> 
@@ -192,12 +175,12 @@
                         var currentPage = parseInt( jQuery('.current').html() );
                         var lastPage = parseInt( jQuery('#carouselPages span:last').prev().html() );
                         var firstPage = parseInt( jQuery('#carouselPages span:first').next().html() );
-
+console.log('a '+currentPage+' '+ lastPage+' '+firstPage);
                         // set up the function to page through carousel
                         function carouselNav(){
                             jQuery('#carousel-row').animate({'opacity': 0}, 'fast');
                             currentPage = parseInt( jQuery('.current').html() );
-
+console.log('b '+currentPage+' '+ lastPage+' '+firstPage);
                             function setCurrent(n){
                                 jQuery('.current').removeClass('current');
                                 jQuery('#carouselPages span').each(function(){
@@ -241,7 +224,7 @@
                                     break;
                             } // end switch
 
-                            jQuery.get('<?php echo get_stylesheet_directory_uri() ?>/chicken-ajax.php', args, function(data){
+                            jQuery.get('<?php echo get_stylesheet_directory_uri(); ?>/chicken-ajax.php', args, function(data){
                               jQuery('#carousel-row').html(data);
                               jQuery('#carousel-row').animate({'opacity': 1}, 'fast');
                             });                          
@@ -252,8 +235,23 @@
                         jQuery('#carouselPages span').on('keyup', function(e){
                             var key = e.which;
                             if ( key == 13 ){ $(document.activeElement).click() }
-                        });                        
+                        });
                 </script>
+
+
+
+<script>
+    // jQuery('document').on('ready', function(){
+        args = {
+            'carousel': true,
+            'paged': 1,
+            'cat': '<?php echo intval( $cat ); ?>'
+        }
+        jQuery.get('<?php echo get_stylesheet_directory_uri(); ?>/chicken-ajax.php', args, function(data){
+          jQuery('#carousel-row').html(data);
+        }); 
+    // });
+</script>                
 
                 <?php
                     break;
@@ -268,37 +266,52 @@
 
 
 
-                <?php default: ?>
-                    <?php if(have_posts()) : ?><?php while(have_posts()) : the_post(); ?>
-                    <div class="post">
-                    <!-- DEFAULT -->
-                    <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+                <?php default:
+                    // must have post_type in query and it must be empty
+                    $cat = get_query_var( 'cat' );
+                    $args = array(
+                        // 'posts_per_page' => 1,
+                        'cat' => $cat,
+                        'post_type' => array(
+                            'cows',
+                            'pigs',
+                            'chickens'
+                        )
+                    );
+                    $query = new WP_Query($args);
+                    if( $query->have_posts()) : ?><?php while($query->have_posts() ) : $query->the_post();
+                     ?>
+                    <div class="post wrap">
+                    <h1><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
                         <div class="entry">   
                             <?php the_post_thumbnail(); ?>
                             <?php the_content(); ?>
                         </div>
                     </div>
-                <?php 
-                    endwhile; endif;
-                    wp_reset_query(); 
-                    break;
-                ?>
+                    <?php 
+                        endwhile; endif;
+                        wp_reset_query(); 
+                        break;
+                    ?>
 
                 <?php } // end switch
             } // end post_type isset
-            else { ?>
-                <?php
+
+
+
+            else {
+                    // post_type is not in query
                     $cat = get_query_var( 'cat' );
                     $args = array(
-                        'posts_per_page' => 1,
+                        // 'posts_per_page' => 1,
                         'cat' => $cat
                     );
                     $query = new WP_Query($args);
                     if( $query->have_posts()) : ?><?php while($query->have_posts() ) : $query->the_post();
                  ?>
-                <div class="post">
+                <div class="post wrap">
                 <!-- ELSE -->
-                <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+                <h1><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
                     <div class="entry">   
                         <?php the_post_thumbnail(); ?>
                         <?php the_content(); ?>

@@ -38,12 +38,19 @@
 
 #carouselPages span {
 	padding: 1em 0px;
+	cursor: pointer;
+}
+
+#carouselPages .current {
+    font-size: 1rem;
+    line-height: 1.5;
+    text-decoration: underline;
 }
 
 .entry.row>div {
 	float: left;
 	margin-right: 50px;
-	max-width: 80%;
+	max-width: 60%;
 }
 
 .featured-chicken-image img {
@@ -58,4 +65,9 @@
 	margin-bottom: 50px;
 	border-bottom: 1px solid #ccc;
 	padding-bottom: 25px;
-	}
+}
+
+.post h1 {
+	text-align: center;
+	margin: 20px auto;
+}
