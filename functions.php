@@ -16,18 +16,25 @@ function my_theme_enqueue_styles() {
 add_action( 'wp_enqueue_scripts', 'my_theme_enqueue_styles' );
 
 
+function register_chicken(){
+	wp_register_script( 'chicken-js', get_stylesheet_directory_uri() . '/chicken.js', array('jquery'), false, true );
+}
+add_action( 'wp_enqueue_scripts', 'register_chicken' );
 
-wp_register_script( 'chicken-js', get_stylesheet_directory_uri() . '/chicken.js', array('jquery'), false, true );
 function chicken_script() {
 	wp_enqueue_script( 'chicken-js' );
 }
 add_action( 'wp_enqueue_scripts', 'chicken_script' );
+
+function localize_chicken(){
 $chicken_vars = array(
 	'stylesheetDirUri' => get_stylesheet_directory_uri()
 	// getting the category query variable doesn't work well here;
 	// use JS variable chickenCat for that one
 );
-wp_localize_script( 'chicken-js', 'chickenVars', $chicken_vars );
+	wp_localize_script( 'chicken-js', 'chickenVars', $chicken_vars );
+}
+add_action( 'wp_enqueue_scripts', 'localize_chicken' );
 
 
 
