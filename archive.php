@@ -145,67 +145,61 @@ if ( isset($_GET["post_type"]) ) {
         <?php break; ?>
 
 
-
-
-
-
-
-
-
-
-                <?php default:
-                    // must have post_type in query and it must be empty
-                    $cat = get_query_var( 'cat' );
-                    $args = array(
-                        // 'posts_per_page' => 1,
-                        'cat' => $cat,
-                        'post_type' => array(
-                            'cows',
-                            'pigs',
-                            'chickens'
-                        )
-                    );
-                    $query = new WP_Query($args);
-                    if( $query->have_posts()) : ?><?php while($query->have_posts() ) : $query->the_post();
-                     ?>
-                    <div class="post wrap">
-                    <h1><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-                        <div class="entry">   
-                            <?php the_post_thumbnail(); ?>
-                            <?php the_content(); ?>
-                        </div>
-                    </div>
-                    <?php 
-                        endwhile; endif;
-                        wp_reset_query(); 
-                        break;
-                    ?>
-
-                <?php } // end switch
-            } // end post_type isset
-
-
-
-            else {
-                    // post_type is not in query
-                    $cat = get_query_var( 'cat' );
-                    $args = array(
-                        // 'posts_per_page' => 1,
-                        'cat' => $cat
-                    );
-                    $query = new WP_Query($args);
-                    if( $query->have_posts()) : ?><?php while($query->have_posts() ) : $query->the_post();
-                 ?>
-                <div class="post wrap">
-                <!-- ELSE -->
-                <h1><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-                    <div class="entry">   
-                        <?php the_post_thumbnail(); ?>
-                        <?php the_content(); ?>
-                    </div>
+        <?php default:
+            // must have post_type in query and it must be empty
+            $cat = get_query_var( 'cat' );
+            $args = array(
+                'cat' => $cat,
+                'post_type' => array(
+                    'cows',
+                    'pigs',
+                    'chickens'
+                )
+            );
+            $query = new WP_Query($args);
+            if( $query->have_posts()) : ?><?php while($query->have_posts() ) : $query->the_post(); ?>
+            <div class="post wrap">
+                <h1><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
+                <div class="entry">   
+                    <?php the_post_thumbnail(); ?>
+                    <?php the_content(); ?>
                 </div>
-                <?php endwhile; endif; wp_reset_query(); ?> 
-            <?php } ?>
+            </div>
+            <?php 
+                endwhile; 
+                endif;
+                wp_reset_query(); 
+            break;
+
+
+    } // end switch
+} // end post_type isset
+
+
+
+else {
+    // post_type is not in query
+    $cat = get_query_var( 'cat' );
+    $args = array(
+        'cat' => $cat
+    );
+    $query = new WP_Query($args);
+    if( $query->have_posts()) : ?><?php while($query->have_posts() ) : $query->the_post(); ?>
+    <div class="post wrap">
+        <h1><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
+        <div class="entry">   
+            <?php the_post_thumbnail(); ?>
+            <?php the_content(); ?>
+        </div>
+    </div>
+    <?php 
+    endwhile; 
+    endif; 
+    wp_reset_query();
+
+} 
+
+?>
 
 
 </div> 

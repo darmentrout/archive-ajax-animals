@@ -24,8 +24,8 @@ imageClick();
 
 // AJAX for moving through carousel
 var currentPage = parseInt( jQuery('.current').html() );
-var lastPage = parseInt( jQuery('#carouselPages span:last').prev().html() );
-var firstPage = parseInt( jQuery('#carouselPages span:first').next().html() );
+var lastPage = parseInt( jQuery('#carousel-chickens span:last').prev().html() );
+var firstPage = parseInt( jQuery('#carousel-chickens span:first').next().html() );
 
 // set up the function to page through carousel
 function carouselNav(){
@@ -36,7 +36,7 @@ function carouselNav(){
 
 	function setCurrent(n){
 		jQuery('.current').removeClass('current');
-		jQuery('#carouselPages span').each(function(){
+		jQuery('#carousel-chickens span').each(function(){
 			if ( jQuery(this).html() == n ){
 				jQuery(this).addClass('current');
 			}

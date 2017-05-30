@@ -17,6 +17,15 @@
 	margin-right: 20px;
 }
 
+.post {
+	margin: 25px auto;
+	border-bottom: 1px solid #ccc;
+}
+
+#main .post:last-child {
+	border-bottom: none;
+}
+
 
 
 /* ----- COWS -------------------------------- */
