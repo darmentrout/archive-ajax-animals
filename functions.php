@@ -103,7 +103,7 @@ function register_animal_types() {
 
 	// chickens
 
-	if( !post_type_exists('pigs') ){
+	if( !post_type_exists('chickens') ){
 		$labels = array(
 			"name" => __( 'chickens', 'twenty-seventeen-child' ),
 			"singular_name" => __( 'chicken', 'twenty-seventeen-child' ),
