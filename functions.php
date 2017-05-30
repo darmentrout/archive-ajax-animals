@@ -66,7 +66,7 @@ function register_animal_types() {
 			"hierarchical" => false,
 			"rewrite" => array( "slug" => "cows", "with_front" => true ),
 			"query_var" => true,
-			"menu_icon" => "http://localhost/wordpress/wp-content/uploads/2017/05/cow_icon-1.png",
+			"menu_icon" => get_stylesheet_directory_uri() . "/images/cow_icon-1.png",
 			"supports" => array( "title", "editor", "thumbnail" ),
 			"taxonomies" => array( "category", "post_tag" ),
 		);
@@ -99,7 +99,7 @@ function register_animal_types() {
 			"hierarchical" => false,
 			"rewrite" => array( "slug" => "pigs", "with_front" => true ),
 			"query_var" => true,
-			"menu_icon" => "http://localhost/wordpress/wp-content/uploads/2017/05/pig_icon-1.png",
+			"menu_icon" => get_stylesheet_directory_uri() . "/images/pig_icon-1.png",
 			"supports" => array( "title", "editor", "thumbnail" ),
 			"taxonomies" => array( "category", "post_tag" ),
 		);
@@ -132,7 +132,7 @@ function register_animal_types() {
 			"hierarchical" => false,
 			"rewrite" => array( "slug" => "chickens", "with_front" => true ),
 			"query_var" => true,
-			"menu_icon" => "http://localhost/wordpress/wp-content/uploads/2017/05/chicken_icon-1.png",
+			"menu_icon" => get_stylesheet_directory_uri() . "/images/chicken_icon-1.png",
 			"supports" => array( "title", "editor", "thumbnail" ),
 			"taxonomies" => array( "category", "post_tag" ),
 		);
