@@ -179,12 +179,7 @@ if ( isset($_GET["post_type"]) ) {
 
 else {
     // post_type is not in query
-    $cat = get_query_var( 'cat' );
-    $args = array(
-        'cat' => $cat
-    );
-    $query = new WP_Query($args);
-    if( $query->have_posts()) : ?><?php while($query->have_posts() ) : $query->the_post(); ?>
+    if( have_posts()) : ?><?php while(have_posts() ) : the_post(); ?>
     <div class="post wrap">
         <h1><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
         <div class="entry">   
@@ -195,7 +190,6 @@ else {
     <?php 
     endwhile; 
     endif; 
-    wp_reset_query();
 
 } 
 
